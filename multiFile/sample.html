@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .multi-file { width: 500px; }
+        .multi-file div { border:1px solid #ccc; border-radius:5px; background-color: #f5f5f5; padding:5px; min-height:50px; }        
+        .multi-file div li { list-style: none; }
+        .multi-file div li button { border-radius: 5px; margin-left:3px; }
+    </style>
+</head>
+<body>
+    <form name="frm" action="">
+        <div class="multi-file">
+            <input id="fileIn" type="file" name="fileList" multiple />
+            <div id="fileDisplay"></div>
+        </div>
+        <button id="btn" type="button">submit</button>
+    </form>
+    
+<script type="module">
+    import MultiFile from './multiFile.js'
+    
+    const m = new MultiFile('fileIn', 'fileDisplay');
+    m.setLimitFileCount(5);     // 파일 수 제한
+    m.setLimitFileSize(1000 * 1024);    // 파일 용량 제한
+    //m.setAllowFileList(['jpg', 'jpeg', 'png', 'gif', 'hwp', 'ppt', 'pdf']); //허용 파일 확장자
+
+    document.getElementById('btn').addEventListener('click', e => {
+        console.log(document.frm.fileList.files);
+        //document.frm.submit();
+    });
+</script>
+</body>
+</html>

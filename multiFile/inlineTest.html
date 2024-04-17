@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        li.fl {list-style: none;}
+    </style>
+</head>
+<body>
+    <form name="frm" action="">
+        <input id="fileIn" type="file" name="fileList" multiple />
+        <div id="fileDisplay"></div>
+        <button type="button" onclick="doSubmit()">submit</button>
+    </form>
+
+<script>
+    const fileIn = document.getElementById('fileIn');
+    const fileDiv = document.getElementById('fileDisplay');    
+    const uploadFileList = [];
+    let fileIndex = 0;
+
+    fileIn.addEventListener('change', fileHandler);
+    
+    function fileHandler(e) {
+        const files = e.target.files;
+        let fileDivHtml = '';
+        console.log(files);
+        [...files].forEach(file => {
+            file.idx = ++fileIndex;
+            uploadFileList.push(file);
+            
+            fileDivHtml += `<li class="fl">${file.name}<button onclick="deleteFile('${file.idx}', this);">X</button></li>`;
+        });
+        fileDiv.insertAdjacentHTML('beforeend', fileDivHtml);
+    }
+
+    function deleteFile(fileIdx, obj) {        
+        obj.parentElement.remove();
+        for(let i=0; i<uploadFileList.length; i++) {
+            const file = uploadFileList[i];
+            if(file.idx == fileIdx) {
+                uploadFileList.splice(i, 1);
+                return;
+            }
+        }
+    }
+
+    function doSubmit() {       
+        const frm = document.frm; 
+        const datatTransfer = new DataTransfer();
+        const dfItems = datatTransfer.items;
+        uploadFileList.forEach(f => dfItems.add(f));
+        frm.fileList.files = datatTransfer.files;
+
+        console.log(frm.fileList.files);
+        return false;
+    }
+</script>
+</body>
+</html>
