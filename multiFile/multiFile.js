@@ -11,8 +11,9 @@ export default class MultiFile {
     }
 
     fileHandler(e) {
-        if(this.validateFile(e.target.files)) {
-            [...e.target.files].forEach(file => {     
+        const files = [...e.target.files];
+        if(this.validateFile(files)) {
+            files.forEach(file => {     
                 file.idx = ++this.fileIndex;
                 this.uploadFileList.push(file);
                 this.fileDiv.appendChild(this.createListElement(file.name, file.idx));            
@@ -32,17 +33,16 @@ export default class MultiFile {
 
         if(this.limitFileSize !== undefined) {            
             const currentFileSize = this.uploadFileList.reduce((sum, f) => sum + f.size, 0);
-            const addFileSize = [...files].reduce((sum, f) => sum + f.size, 0);
-            const totalSize = currentFileSize + addFileSize;
+            const addFileSize = files.reduce((sum, f) => sum + f.size, 0);
 
-            if(this.limitFileSize < totalSize) {
-                alert('파일 용량 제한('+this.limitFileSize+')을 초과하였습니다.');
+            if(this.limitFileSize < currentFileSize + addFileSize) {
+                alert('파일 용량 제한('+this.limitFileSize+'byte)을 초과하였습니다.');
                 return false;
             }
         }
 
         if(this.allowFileList !== undefined) {
-            const existNotAllowedExtension = [...files].some(f => !this.allowFileList.includes(this.getExtension(f.name)));
+            const existNotAllowedExtension = files.some(f => !this.allowFileList.includes(this.getExtension(f.name)));
             if(existNotAllowedExtension) {
                 alert('허용하지 않는 파일형식입니다.');
                 return false;
@@ -65,8 +65,7 @@ export default class MultiFile {
     deleteFile(fileIdx, obj) {
         obj.parentElement.remove();
         for(let i=0; i<this.uploadFileList.length; i++) {
-            const file = this.uploadFileList[i];
-            if(file.idx == fileIdx) {
+            if(this.uploadFileList[i].idx == fileIdx) {
                 this.uploadFileList.splice(i, 1);
                 break;                
             }
@@ -74,15 +73,15 @@ export default class MultiFile {
         this.updateFiles();
     }
 
-    getExtension(fileName) {
-        return fileName.split('.').pop().toLowerCase();
-    }
-
     updateFiles() {
         const dataTransfer = new DataTransfer();
         const transferItems = dataTransfer.items;
         this.uploadFileList.forEach(f => transferItems.add(f));
-        fileIn.files = dataTransfer.files;
+        this.fileIn.files = dataTransfer.files;
+    }
+
+    getExtension(fileName) {
+        return fileName.split('.').pop().toLowerCase();
     }
 
     setLimitFileCount(size) {
