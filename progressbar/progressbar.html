@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>progress bar</title>
+</head>
+<body>
+<style>
+  .wrapper {
+      width: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0px auto;
+      margin-top: 30vh;
+  }
+  .progress-bar {
+      width: 100%;
+      background-color: whitesmoke;
+      padding: 2px;
+  }
+  .progress-bar-fill {
+      display: block;
+      height: 40px;
+      background-color: #65ef88;
+      border-radius: 3px;
+      width: 0%; /* Starts at 0%, updates with download progress */          
+      transition: width 30ms ease-in-out;
+  }
+  .progress-text {
+      font-size: 1.5rem;
+      padding: 10px;
+  }
+  img {
+      display: block;
+      margin: 0px auto;
+  }
+</style>
+
+  <div class="wrapper">
+    <div class="progress-bar">
+      <span class="progress-bar-fill"></span>  
+    </div>
+    <span class="progress-text">Download starting...</span>
+  </div>
+
+<script>
+    const fill = document.querySelector('.progress-bar-fill');
+    const text = document.querySelector('.progress-text');
+
+    function progressBar(res) {
+        const contentLength = res.headers.get('content-length');
+        let loaded = 0;
+        const reader = res.body.getReader();
+
+        const readStream = new ReadableStream({
+            start(controller) {
+                function read() {
+                    reader.read().then(({done, value}) => {
+                        if(done) {
+                            controller.close();
+                            return;
+                        }
+
+                        loaded += value.byteLength;
+                        loadedPercent = Math.round(loaded / contentLength * 100) + '%';
+                        fill.style.width = loadedPercent;
+                        text.textContent = loadedPercent;
+
+                        controller.enqueue(value);
+                        read();
+                    })
+                }
+                read();
+            }
+        });
+
+        return new Response(readStream);
+    }
+
+    fetch('https://fetch-progress.anthum.com/30kbps/images/sunrise-progressive.jpg')
+    .then(progressBar)
+    .then(res => res.blob())
+    .then(blob => {
+        const img = new Image();
+        img.src = URL.createObjectURL(blob);
+        document.body.appendChild(img);
+    });
+</script>    
+</body>
+</html>
