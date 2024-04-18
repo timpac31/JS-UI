@@ -54,9 +54,9 @@ export default class MultiFile {
 
     createListElement(fileName, fileIdx) {
         const li = document.createElement('li');
-        const btn = document.createElement('button');
-        btn.addEventListener('click', e => this.deleteFile(fileIdx, btn));
-        btn.textContent = 'X';
+        const btn = document.createElement('span');
+        btn.innerHTML = '&#215;'
+        btn.addEventListener('click', e => this.deleteFile(fileIdx, btn));        
         li.textContent = fileName;
         li.appendChild(btn);
         return li;
