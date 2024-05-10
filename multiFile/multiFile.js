@@ -7,7 +7,7 @@ export default class MultiFile {
         
         this.uploadFileList = [];
         this.fileIndex = 0;        
-        fileIn.addEventListener('change', e => this.fileHandler(e));
+        this.fileIn.addEventListener('change', e => this.fileHandler(e));
     }
 
     fileHandler(e) {
