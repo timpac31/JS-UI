@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>레이어 팝업</title>
+</head>
+<body>
+	<div id="visual-eventlayer1" class="visual-eventlayer" style="display: none;">
+		<div class="visual-eventwrap">
+			<div class="layer-img">
+				<img src="petfestival_2024.png" />
+			</div>
+			<div class="layer-control">
+				<form name="vform">
+					<div class="today-close">
+						<input type="checkbox" id="todaynone" name="chkbox">
+						<label for="todaynone">오늘 하루 그만보기</label>
+					</div>
+					<button type="button" id="event-close" class="event-close">닫기<span></span></button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="module">
+		import LayerPopup from './layerPopup.js';
+		new LayerPopup('visual-eventlayer1', {
+			'startDate': '2024/06/07 00:00:00',
+			'endDate': '2024/06/08 13:00:00',
+			'cookieName': 'visual-eventlayer1-close',
+			'closeButtonId': 'event-close',
+			'closeCheckId': 'todaynone'
+		}).pop();
+	</script>
+</body>
+</html>
