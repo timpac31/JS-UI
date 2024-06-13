@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>페이징 유틸</title>
+</head>
+<body>
+    
+<script src="paging.js" ></script>
+<script>
+    const pagination = new Pagination(101);    
+    goPage(1);
+
+    function goPage(pageNo) {
+        document.body.innerHTML = pagination.html(pageNo);
+    }
+</script>    
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>페이징 유틸</title>
+</head>
+<body>
+    
+<script src="paging.js" ></script>
+<script>
+    const pagination = new Pagination(122, 5, 10);
+    const template = new PaginationTemplate();
+    template.prev('<a href="?pageIndex={pageNo}" onclick="goPage({pageNo});return false;" class="back" title="이전페이지로 이동">&lt;</a>\n');
+    template.current('<span>{pageNo}</span>\n');
+    template.other('<a href="?pageIndex={pageNo}" onclick="goPage({pageNo});return false;">{pageNo}</a>\n');
+    template.next('<a href="?pageIndex={pageNo}" onclick="goPage({pageNo});return false;" class="forward" title="다음페이지로 이동">&gt;</a>\n');
+    pagination.setTemplate(template);
+    goPage(1);
+
+    function goPage(pageNo) {
+        document.body.innerHTML = pagination.html(pageNo);
+    }
+</script>    
+</body>
+</html>
