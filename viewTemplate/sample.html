@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>View Tag</title>
+    <style>
+        .board { border: 1px solid #eee; width:800px; }
+        .board th { background-color: #00bcdd; }
+        .board td { border-bottom: 1px solid #eee; }
+        .board td.view-link { cursor: pointer; }
+    </style>
+</head>
+<body>
+<script type="module">
+import { BoardListView } from './viewImpl.js';
+
+const boards = [
+    {boardNo: 1, title: '안녕하세요', writer: '관리자', regDate: '2024-07-03', isNew: true},
+    {boardNo: 2, title: 'ㅎㅎㅎㅎ', writer: '손님', regDate: '2024-07-02', isNew: true},
+    {boardNo: 3, title: '반가워요', writer: '국장', regDate: '2024-07-03', isNew: false},
+    {boardNo: 4, title: 'Hello', writer: '팀장', regDate: '2024-07-04', isNew: false},
+    {boardNo: 5, title: 'ㅋㅋㅋㅋ', writer: '관리자', regDate: '2024-07-05', isNew: false}
+];
+document.body.append(new BoardListView(boards).render());
+</script>
+</body>
+</html>
