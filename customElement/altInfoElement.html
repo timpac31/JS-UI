@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title> 
+</head>
+<body>
+    <h2>커스텀 HTMLElement 부연설명 박스</h2>
+    <p>
+        부연설명
+        <alt-info img="info_icon.png" 
+            data-text="부연설명 텍스트입니다.
+            마우스를 올리면 설명 박스가 나타납니다."></alt-info>
+    </p>
+    <p class="info">style context 달라서 .info style 적용안됨</p>
+
+<script type="module">
+    import {AltInfo} from './altInfoElement.js';
+    customElements.define('alt-info', AltInfo);
+</script>
+</body>
+</html>
