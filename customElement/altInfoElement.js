@@ -8,28 +8,19 @@ export class AltInfo extends HTMLElement {
         const text = this.getAttribute('data-text');
         const imgUrl = this.hasAttribute('img') ? this.getAttribute('img') : 'info_icon.png';
         
-        const wrapper = document.createElement('span');
-        wrapper.setAttribute('class', 'wrapper');
+        const html = `
+            <span class="wrapper">
+                <span class="icon">
+                    <img src="${imgUrl}" />
+                </span>
+                <span class="info">${text}</span>
+            </span>
+        `;
 
-        const icon = document.createElement('span');
-        icon.setAttribute('class', 'icon');
-        icon.setAttribute('tabindex', 0);
-
-        const infoWindow = document.createElement('span');
-        infoWindow.setAttribute('class', 'info');
-        infoWindow.textContent = text;
-        
-        const img = document.createElement("img");
-        img.src = imgUrl;
-
+        shadow.innerHTML = html;
         const style = document.createElement("style");
         style.textContent = this.#styleContent();
-
-        icon.appendChild(img);        
-        wrapper.appendChild(icon);
-        wrapper.appendChild(infoWindow);
         shadow.appendChild(style);
-        shadow.appendChild(wrapper);
     }
 
     #styleContent() {

@@ -26,13 +26,52 @@ export class BoardListView extends View {
 
     onRender() {
         this.delegate('click', '.view-link', e => {
-            console.log(e.target);
+            alert(e.target.dataset.boardNo);
         })
+    }
+}
 
-        // [...this.element.querySelectorAll('.view-link')].forEach(td => 
-        //     td.addEventListener('click', e => {
-        //         alert(e.target.dataset.boardNo);
-        //     })
-        // );
+export class SwitchView extends View {
+    _template() {
+        return html`<input type="checkbox" ${this.data.on ? 'checked': ''}>`;
+    }
+
+    onRender() {
+        this.element.addEventListener('click', () => this.setOn(!this.data.on))
+    }
+
+    setOn(bool) {
+        console.log(bool);
+        this.data.on = bool;
+        this.element.checked = bool;
+    }
+}
+
+export class SettingItemView extends View {
+    _template() {
+        return html`
+            <div>
+                <span class="title">${this.data.title}</span>
+                ${new SwitchView(this.data)}
+            </div>
+        `;
+    }
+}
+
+export class SettingListView extends View {
+    #checkAll = false;
+    #switchView = new SwitchView({on: this.#checkAll});
+
+    _template() {
+        return html`            
+            <div class="setting-list">
+                <div>전체선택 ${new SwitchView({on: this.#checkAll})}</div>
+                ${this.data.map(setting => new SettingItemView(setting))}                
+            </div>
+        `;
+    }
+
+    onRender() {
+        this.element.querySelector('input')
     }
 }

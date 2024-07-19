@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>View Tag</title>
+</head>
+<body>
+    <script type="module">
+        import { SwitchView, SettingItemView, SettingListView } from './viewImpl.js';
+
+        const settingListView = new SettingListView([
+            {title:'Wifi', on: true},
+            {title:'Blutooth', on: false},
+            {title:'Geo', on: true},
+        ])
+        document.body.append(settingListView.render());
+    </script>
+</body>
+</html>

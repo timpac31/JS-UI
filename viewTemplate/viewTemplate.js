@@ -8,6 +8,9 @@ class Tmpl {
 
     _escapeHtml(text) {
         if(text instanceof Tmpl) return text.toHtml();
+        else if(text instanceof View) {
+            return text.render().outerHTML;
+        }
         else if(!Number.isNaN(text)) return text;
         else return text.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
     }
@@ -34,16 +37,15 @@ class View {
         return html`<div>${this.data}</div>`;
     }
 
-    onRender() {
-        //렌더링 후 이벤트 정의
-    }
+    /** 렌더링 후 이벤트 정의 */
+    onRender() {}
 
     delegate(eventType, selector, listener) {
         const selectors = [...this.element.querySelectorAll(selector)];
         this.element.addEventListener(eventType, e => {
-            console.log(selectors.some(s => s.contains(e.target)) );
-            
-            listener(e);
+            if(selectors.some(s => s.contains(e.target))) {
+                listener(e);
+            }
         })
     }
 

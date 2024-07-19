@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="keyword" />
+<script>
+    function keyupHandle(keyword) {
+        console.log(keyword);
+    }
+
+    const debounce = (callback, delay = 500) => {
+        let timer;
+        return (e) => {
+            if (timer) { clearTimeout(timer); }
+            timer = setTimeout(() => {
+                callback(e.target.value);
+            }, delay);
+        };
+    };
+
+    document.querySelector('input[name=keyword]').addEventListener('keyup', debounce(keyupHandle, 1000));
+</script>    
+</body>
+</html>
