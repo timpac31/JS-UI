@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bindTemplates 사용</title>
+</head>
+<body>
+    <div>
+        <p>리스트</p>
+        <ul id="bbs_list">
+            
+        </ul>
+    </div>
+    <button id="add">추가</button>
+
+<script type="module">
+    import {bindTemplates} from './dom.js';
+
+    const list = [
+        {name: 'jyd', age: '44', hobby: 'basketball'},
+        {name: 'lee', age: '34', hobby: '11'},
+        {name: 'kim', age: '41', hobby: '22'},
+        {name: 'hom', age: '24', hobby: '55'},
+    ];
+
+    const template = `
+        <li>이름: #{name}</li><li>나이: #{age}</li><li>취미: #{hobby}</li>
+        <p>안녕하세요 #{name} 님</p>
+        #{ggg} #{} 프로퍼티 이름이 다르면 치환이 안됨.
+    `;
+
+    function add() {
+        const html = bindTemplates(template, list);
+        document.getElementById('bbs_list').innerHTML = html;
+    }
+
+    document.getElementById('add').addEventListener('click', e => add());
+</script>    
+</body>
+</html>
